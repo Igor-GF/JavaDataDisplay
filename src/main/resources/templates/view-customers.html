@@ -1,0 +1,33 @@
+<!--This is connected with controllers/CustomerController and displays the data retrieved from there.-->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/css/main.css}">
+<script th:src="@{/js/bootstrap.min.js}" ></script>
+<head>
+  <meta charset="UTF-8">
+  <title>View customers</title>
+</head>
+<body>
+<nav>
+  ...
+</nav>
+
+<h1>Existing information</h1>
+<table>
+  <thead>
+  <tr>
+    <th>Customer</th>
+    <th>View</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="customer: ${customers}">
+    <td th:text="${customer.getContactName()}"></td>
+    <td>
+      <a th:href="'/customers/' + ${customer.getCustomerId()}">View</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
