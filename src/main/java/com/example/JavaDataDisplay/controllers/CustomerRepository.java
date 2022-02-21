@@ -1,6 +1,7 @@
 package com.example.JavaDataDisplay.controllers;
 import com.example.JavaDataDisplay.models.Customer;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class CustomerRepository {
     private String URL = ConnectionHelper.CONNECTION_URL;
@@ -91,5 +92,15 @@ public class CustomerRepository {
             }
         return success;
         }
+    }
+
+    public ArrayList<Customer> getAllCustomers() {
+        System.out.println("Do not forget to fill this in later");
+        return null;
+    }
+
+    public Boolean updateCustomer(Customer customer) {
+        System.out.println("Do not forget to fill this in later. :D");
+        return null;
     }
 }
