@@ -17,7 +17,7 @@ public class CustomerRepository {
             // Make SQL query
             PreparedStatement preparedStatement =
                 conn.prepareStatement("SELECT CustomerId,FirstName, LastName, Country, PostalCode, Phone, Email FROM customer WHERE CustomerId = ?");
-            preparedStatement.setString(1,custId);
+            preparedStatement.setString(1, custId);
             // Execute Query
             ResultSet resultSet = preparedStatement.executeQuery();
 
