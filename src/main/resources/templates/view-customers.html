@@ -21,10 +21,11 @@
     </tr>
     </thead>
     <tbody>
+
     <tr th:each="customer: ${customers}">
-        <td th:text="${customer.getLastName()}"></td>
+        <td th:text="${customer.getFirstName()}"></td>
         <td>
-            <a th:href="'/customers/' + ${customer.getFirstName()}">View</a>
+            <a th:href="'/customers/' + ${customer.getLastName()}">View</a>
         </td>
     </tr>
     </tbody>
