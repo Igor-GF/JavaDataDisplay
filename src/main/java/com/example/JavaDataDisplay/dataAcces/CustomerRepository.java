@@ -1,10 +1,11 @@
 package com.example.JavaDataDisplay.dataAcces;
 import com.example.JavaDataDisplay.models.Customer;
+import org.springframework.stereotype.Service;
 import java.sql.*;
 import java.util.ArrayList;
 
-
-public class CustomerRepository {
+@Service
+public class CustomerRepository implements IntCustomerRepository{
     private String URL = ConnectionHelper.CONNECTION_URL;
     private Connection conn = null;
     public ArrayList<Customer> customers = new ArrayList<Customer>();
@@ -22,7 +23,7 @@ public class CustomerRepository {
 
             while (resultSet.next()) {
                 customers.add(
-                new Customer(
+                    new Customer(
                         resultSet.getString("CustomerId"),
                         resultSet.getString("FirstName"),
                         resultSet.getString("LastName"),
@@ -30,23 +31,24 @@ public class CustomerRepository {
                         resultSet.getString("PostalCode"),
                         resultSet.getString("Phone"),
                         resultSet.getString("Email")
-                ));
+                    )
+                );
             }
             System.out.println("Selected all the customers");
-        } catch (SQLException sqlex) {
-            sqlex.printStackTrace();
+        } catch (SQLException sqe) {
+            sqe.printStackTrace();
             // exit the program
             System.exit(-1);
         }
         return customers;
     }
 
-    public String customerById(){
+    public Customer customerById(){
         return null;
     }
 
 
-    public String customerByName(){
+    public Customer customerByName(){
         return null;
     }
 
@@ -54,23 +56,24 @@ public class CustomerRepository {
         return null;
     }
 
-    public void addNewCustomer() {
+    public Customer addNewCustomer() {
+        return null;
     }
 
-    public void updateExistingCustomer(){
-
+    public Customer updateExistingCustomer(){
+        return null;
     }
 
-    public void returnNumberCustomersCountry(){
-
+    public int returnNumberCustomersCountry(){
+        return 0;
     }
 
-    public void getHighestSpendingCustomers(){
-
+    public ArrayList<Customer> getHighestSpendingCustomers(){
+        return null;
     }
 
-    public void mostPopularGenreCustomer(){
-
+    public ArrayList<Customer> mostPopularGenreCustomer(){
+        return null;
     }
 
 
