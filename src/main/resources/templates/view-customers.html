@@ -16,17 +16,19 @@
 <table>
     <thead>
     <tr>
-        <th>Customer</th>
-        <th>View</th>
+        <th>Customers</th>
     </tr>
     </thead>
     <tbody>
 
     <tr th:each="customer: ${customers}">
+        <td th:text="${customer.getCustomerId()}"></td>
         <td th:text="${customer.getFirstName()}"></td>
-        <td>
-            <a th:href="'/customers/' + ${customer.getLastName()}">View</a>
-        </td>
+        <td th:text="${customer.getLastName()}"></td>
+        <td th:text="${customer.getCounty()}"></td>
+        <td th:text="${customer.getPostalCode()}"></td>
+        <td th:text="${customer.getPhoneNumber()}"></td>
+        <td th:text="${customer.getEmail()}"></td>
     </tr>
     </tbody>
 </table>
