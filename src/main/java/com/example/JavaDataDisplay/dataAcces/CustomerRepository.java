@@ -197,17 +197,70 @@ public class CustomerRepository {
     }
 
 
+    // Note that this does not completely work.
+    public ResultSet returnNumberCustomersCountry() {
+        ResultSet resultSet = null;
+        try {
+            // Connect to the database
+            conn = DriverManager.getConnection(URL);
+            System.out.println("Connection to SQLite has been established 1.");
 
-    public int returnNumberCustomersCountry(){
-        return 0;
+            // Make SQL query
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT COUNT(CustomerId), Country FROM Customer GROUP BY Country ORDER BY COUNT(CustomerId) DESC;");
+            resultSet = preparedStatement.executeQuery();
+
+            System.out.println("Selected all the customers");
+
+        } catch (SQLException sqe) {
+            sqe.printStackTrace();
+            // exit the program
+            System.exit(-1);
+        }
+        return resultSet;
     }
 
-    public ArrayList<Customer> getHighestSpendingCustomers(){
-        return null;
+
+
+    public ResultSet getHighestSpendingCustomers(){
+        ResultSet resultset = null;
+        try {
+            // Connect to the database
+            conn = DriverManager.getConnection(URL);
+            System.out.println("Connection to SQLite has been established 1.");
+
+            // Make SQL query
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT CustomerId FROM Invoice ORDER BY COUNT(Total) DESC;");
+            resultset = preparedStatement.executeQuery();
+
+            System.out.println("Selected all the spending customers");
+
+        } catch (SQLException sqe) {
+            sqe.printStackTrace();
+            // exit the program
+            System.exit(-1);
+        }
+        return resultset;
     }
 
-    public ArrayList<Customer> mostPopularGenreCustomer(){
-        return null;
+    public ResultSet mostPopularGenreCustomer(){
+        ResultSet resultset = null;
+        try {
+            // Connect to the database
+            conn = DriverManager.getConnection(URL);
+            System.out.println("Connection to SQLite has been established 1.");
+
+            // Make SQL query
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT MAX(InvoiceId) AS LargestPrice FROM Products;");
+            resultset = preparedStatement.executeQuery();
+
+            System.out.println("Selected all the spending customers");
+
+        } catch (SQLException sqe) {
+            sqe.printStackTrace();
+            // exit the program
+            System.exit(-1);
+        }
+        return resultset;
     }
 
 

@@ -3,6 +3,7 @@ import com.example.JavaDataDisplay.dataAcces.CustomerRepository;
 import com.example.JavaDataDisplay.models.Customer;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 @RestController
@@ -44,7 +45,20 @@ public class APICustomerController {
         return customerRepository.updateExistingCustomer(customer);
     }
 
+    @GetMapping("/customers/byCountry")
+    public ResultSet returnNumberCustomersCountry(){
+        return customerRepository.returnNumberCustomersCountry();
+    }
+
+    @GetMapping("/invoice/highestSpenders")
+    public ResultSet getHighestSpendingCustomers(){
+        return customerRepository.getHighestSpendingCustomers();
+    }
 
 
+    @GetMapping("/invoice/mostPopular")
+    public ResultSet mostPopularGenreCustomer(){
+        return customerRepository.mostPopularGenreCustomer();
+    }
 
 }
