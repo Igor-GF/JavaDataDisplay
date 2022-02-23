@@ -5,13 +5,12 @@ import java.sql.*;
 import java.util.ArrayList;
 
 @Service
-public class CustomerRepository{
+public class CustomerRepository {
     private String URL = ConnectionHelper.CONNECTION_URL;
     private Connection conn = null;
     public ArrayList<Customer> customers = new ArrayList<Customer>();
 
     public ArrayList<Customer> getAllCustomers() {
-
         try {
             // Connect to the database
             conn = DriverManager.getConnection(URL);
@@ -23,15 +22,15 @@ public class CustomerRepository{
 
             while (resultSet.next()) {
                 customers.add(
-                    new Customer(
-                        resultSet.getString("CustomerId"),
-                        resultSet.getString("FirstName"),
-                        resultSet.getString("LastName"),
-                        resultSet.getString("Country"),
-                        resultSet.getString("PostalCode"),
-                        resultSet.getString("Phone"),
-                        resultSet.getString("Email")
-                    )
+                        new Customer(
+                                resultSet.getString("CustomerId"),
+                                resultSet.getString("FirstName"),
+                                resultSet.getString("LastName"),
+                                resultSet.getString("Country"),
+                                resultSet.getString("PostalCode"),
+                                resultSet.getString("Phone"),
+                                resultSet.getString("Email")
+                        )
                 );
             }
             System.out.println("Selected all the customers");
@@ -43,9 +42,9 @@ public class CustomerRepository{
         return customers;
     }
 
-    public Customer getCustomerById(String custId){
+    public Customer getCustomerById(String custId) {
         Customer customer = null;
-        try{
+        try {
             // Connect to DB
             conn = DriverManager.getConnection(URL);
             System.out.println("Connection to SQLite has been established 2.");
@@ -66,8 +65,7 @@ public class CustomerRepository{
                 );
             }
             System.out.println("Select specific customer successful");
-        }
-        catch (SQLException sqe) {
+        } catch (SQLException sqe) {
             sqe.printStackTrace();
             // exit the program
             System.exit(-1);
@@ -75,9 +73,9 @@ public class CustomerRepository{
         return customer;
     }
 
-    public Customer getCustomerByName(String custName){
+    public Customer getCustomerByName(String custName) {
         Customer customer = null;
-        try{
+        try {
             // Connect to DB
             conn = DriverManager.getConnection(URL);
             System.out.println("Connection to SQLite has been established 3.");
@@ -98,8 +96,7 @@ public class CustomerRepository{
                 );
             }
             System.out.println("Select specific customer successful");
-        }
-        catch (SQLException sqe) {
+        } catch (SQLException sqe) {
             sqe.printStackTrace();
             // exit the program
             System.exit(-1);
@@ -107,17 +104,99 @@ public class CustomerRepository{
         return customer;
     }
 
-    public ArrayList<Customer> getCustomersBySelection() {
-        return null;
+    // Note that this does not completely work. The limit and offset could not be implemented.
+    public ArrayList<Customer> getCustomersBySelection(int limit, int offset) {
+        try {
+            // Connect to DB
+            conn = DriverManager.getConnection(URL);
+            System.out.println("Connection to SQLite has been established 3.");
+            // Make SQL query
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer WHERE CustomerId BETWEEN 50 AND 60");
+            //preparedStatement.setInt(1, limit);
+            //preparedStatement.setInt(2, offset);
+            // Execute Query
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                customers.add(new Customer(
+                        resultSet.getString("CustomerId"),
+                        resultSet.getString("FirstName"),
+                        resultSet.getString("LastName"),
+                        resultSet.getString("Country"),
+                        resultSet.getString("PostalCode"),
+                        resultSet.getString("Phone"),
+                        resultSet.getString("Email")
+                ));
+            }
+            System.out.println("Select specific customer successful");
+        } catch (SQLException sqe) {
+            sqe.printStackTrace();
+            // exit the program
+            System.exit(-1);
+        }
+        return customers;
     }
 
-    public Customer addNewCustomer() {
-        return null;
+    // Note that this does not completely work. It does not create a new Customer.
+    public Boolean addCustomer(Customer customer){
+        Boolean success = false;
+        try{
+            // Connect to DB
+            conn = DriverManager.getConnection(URL);
+            System.out.println("Connection to SQLite has been established.");
+
+            // Make SQL query
+            PreparedStatement preparedStatement =
+                    conn.prepareStatement("INSERT INTO customer(CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email) VALUES(?,?,?,?,?,?,?)");
+            preparedStatement.setString(1,customer.getCustomerId());
+            preparedStatement.setString(2,customer.getFirstName());
+            preparedStatement.setString(3,customer.getLastName());
+            preparedStatement.setString(4,customer.getCountry());
+            preparedStatement.setString(5,customer.getPostalCode());
+            preparedStatement.setString(6,customer.getPhoneNumber());
+            preparedStatement.setString(7,customer.getEmail());
+            // Execute Query
+            int result = preparedStatement.executeUpdate();
+            success = (result != 0);
+            System.out.println("Add customer successful");
+        }
+        catch (Exception exception){
+            System.out.println(exception.toString());
+        }
+        finally {
+            try {
+                conn.close();
+            }
+            catch (Exception exception){
+                System.out.println(exception.toString());
+            }
+        }
+        return success;
     }
 
-    public Customer updateExistingCustomer(){
-        return null;
+    // Note that this does not completely work. It does not update.
+    public int updateExistingCustomer (Customer customer) {
+        try {
+            // Connect to DB
+            conn = DriverManager.getConnection(URL);
+            System.out.println("Connection to SQLite has been established.");
+
+            PreparedStatement preparedStatement = conn.prepareStatement("UPDATE Customer SET CustomerId = ?, FirstName = ?, LastName = ?, Country = ?, PostalCode = ?, Phone = ?, Email = ? WHERE Id = ?");
+            preparedStatement.setString(1,customer.getCustomerId());
+            preparedStatement.setString(2,customer.getFirstName());
+            preparedStatement.setString(3,customer.getLastName());
+            preparedStatement.setString(4,customer.getCountry());
+            preparedStatement.setString(5,customer.getPostalCode());
+            preparedStatement.setString(6,customer.getPhoneNumber());
+            preparedStatement.setString(7,customer.getEmail());
+            return preparedStatement.executeUpdate();
+
+        } catch (SQLException sqe) {
+            sqe.printStackTrace();
+            return 0;
+        }
     }
+
+
 
     public int returnNumberCustomersCountry(){
         return 0;

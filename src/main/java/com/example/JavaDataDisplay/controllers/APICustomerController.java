@@ -25,4 +25,26 @@ public class APICustomerController {
         return customerRepository.getCustomerByName(customerName);
     }
 
+    // Method below does not work yet. Check later.
+    @GetMapping("/customers/between")
+    public ArrayList<Customer> getCustomersBySelection (@RequestParam(value = "limit", defaultValue = "60") String limit,
+                                                        @RequestParam(value = "offset", defaultValue = "0") String offset)
+            {
+        return customerRepository.getCustomersBySelection(
+                Integer.parseInt(limit), Integer.parseInt(offset));
+    }
+
+    @PostMapping(value = "/customers")
+    public Boolean addCustomer(@RequestBody Customer customer){
+        return customerRepository.addCustomer(customer);
+    }
+
+    @RequestMapping(value = "customers/update/{id}", method = RequestMethod.PUT)
+    public int updateExistingCustomer(@PathVariable String id, @RequestBody Customer customer){
+        return customerRepository.updateExistingCustomer(customer);
+    }
+
+
+
+
 }

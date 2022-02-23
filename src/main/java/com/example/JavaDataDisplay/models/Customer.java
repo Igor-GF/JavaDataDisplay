@@ -4,7 +4,7 @@ public class Customer {
     private String customerId;
     private String firstName;
     private String lastName;
-    private String county;
+    private String country;
     private String postalCode;
     private String phoneNumber;
     private String email;
@@ -13,7 +13,7 @@ public class Customer {
         this.customerId = customerId;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.county = country;
+        this.country = country;
         this.postalCode = postalCode;
         this.phoneNumber = phoneNumber;
         this.email = email;
@@ -44,12 +44,12 @@ public class Customer {
         this.lastName = lastName;
     }
 
-    public String getCounty() {
-        return county;
+    public String getCountry() {
+        return country;
     }
 
-    public void setCounty(String county) {
-        this.county = county;
+    public void setCountry(String county) {
+        this.country = country;
     }
 
     public String getPostalCode() {
