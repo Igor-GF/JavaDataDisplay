@@ -82,7 +82,7 @@ public class CustomerRepository{
             conn = DriverManager.getConnection(URL);
             System.out.println("Connection to SQLite has been established 3.");
             // Make SQL query
-            PreparedStatement preparedStatement = conn.prepareStatement("SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer WHERE FirstName LIKE '?%'");
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer WHERE FirstName = ?");
             preparedStatement.setString(1, custName);
             // Execute Query
             ResultSet resultSet = preparedStatement.executeQuery();
