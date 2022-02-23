@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/css/main.css}">
+<script th:src="@{/js/bootstrap.min.js}" ></script>
+<head>
+    <meta charset="UTF-8">
+    <title>View customers</title>
+</head>
+<body>
+<nav>
+    ...
+</nav>
+
+<h1>Existing information</h1>
+<table>
+    <thead>
+    <tr>
+        <th>CustomerId</th>
+    </tr>
+    </thead>
+    <tbody>
+    <td th:text="${customerByName.getCustomerId()}"></td>
+    <td th:text="${customerByName.getFirstName()}"></td>
+    <td th:text="${customerByName.getLastName()}"></td>
+    <td th:text="${customerByName.getCounty()}"></td>
+    <td th:text="${customerByName.getPostalCode()}"></td>
+    <td th:text="${customerByName.getPhoneNumber()}"></td>
+    <td th:text="${customerByName.getEmail()}"></td>
+    </tbody>
+</table>
