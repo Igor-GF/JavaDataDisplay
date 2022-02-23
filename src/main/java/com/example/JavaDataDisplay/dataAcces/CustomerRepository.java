@@ -5,7 +5,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 @Service
-public class CustomerRepository implements IntCustomerRepository{
+public class CustomerRepository{
     private String URL = ConnectionHelper.CONNECTION_URL;
     private Connection conn = null;
     public ArrayList<Customer> customers = new ArrayList<Customer>();
@@ -18,7 +18,7 @@ public class CustomerRepository implements IntCustomerRepository{
             System.out.println("Connection to SQLite has been established.");
 
             // Make SQL query
-            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM customer");
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM Customer");
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -43,13 +43,68 @@ public class CustomerRepository implements IntCustomerRepository{
         return customers;
     }
 
-    public Customer customerById(){
-        return null;
+    public Customer getCustomerById(String custId){
+        Customer customer = null;
+        try{
+            // Connect to DB
+            conn = DriverManager.getConnection(URL);
+            System.out.println("Connection to SQLite has been established.");
+            // Make SQL query
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer WHERE CustomerId = ?");
+            preparedStatement.setString(1, custId);
+            // Execute Query
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                customer = new Customer(
+                        resultSet.getString("CustomerId"),
+                        resultSet.getString("FirstName"),
+                        resultSet.getString("LastName"),
+                        resultSet.getString("Country"),
+                        resultSet.getString("PostalCode"),
+                        resultSet.getString("Phone"),
+                        resultSet.getString("Email")
+                );
+            }
+            System.out.println("Select specific customer successful");
+        }
+        catch (SQLException sqe) {
+            sqe.printStackTrace();
+            // exit the program
+            System.exit(-1);
+        }
+        return customer;
     }
 
-
-    public Customer customerByName(){
-        return null;
+    public Customer customerByName(String custName){
+        Customer customer = null;
+        try{
+            // Connect to DB
+            conn = DriverManager.getConnection(URL);
+            System.out.println("Connection to SQLite has been established.");
+            // Make SQL query
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer WHERE FirstName LIKE '?%'");
+            preparedStatement.setString(1, custName);
+            // Execute Query
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                customer = new Customer(
+                        resultSet.getString("CustomerId"),
+                        resultSet.getString("FirstName"),
+                        resultSet.getString("LastName"),
+                        resultSet.getString("Country"),
+                        resultSet.getString("PostalCode"),
+                        resultSet.getString("Phone"),
+                        resultSet.getString("Email")
+                );
+            }
+            System.out.println("Select specific customer successful");
+        }
+        catch (SQLException sqe) {
+            sqe.printStackTrace();
+            // exit the program
+            System.exit(-1);
+        }
+        return customer;
     }
 
     public ArrayList<Customer> getCustomersBySelection() {

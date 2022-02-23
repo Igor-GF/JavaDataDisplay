@@ -14,4 +14,16 @@ public class CustomerController {
         model.addAttribute("customers", customerRepository.getAllCustomers());
         return "view-customers";
     }
+
+    @GetMapping("/customers/{custId}")
+    public String getCustomerById(Model model){
+        model.addAttribute("customerById", customerRepository.getCustomerById("custId"));
+        return "view-customer-by-id";
+    }
+
+    @GetMapping("/customers/{custName}")
+    public String getCustomerByName(Model model){
+        model.addAttribute("customerByName", customerRepository.getCustomerById("custName"));
+        return "view-customer-by-name";
+    }
 }
