@@ -15,7 +15,7 @@ public class CustomerRepository{
         try {
             // Connect to the database
             conn = DriverManager.getConnection(URL);
-            System.out.println("Connection to SQLite has been established.");
+            System.out.println("Connection to SQLite has been established 1.");
 
             // Make SQL query
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM Customer");
@@ -48,7 +48,7 @@ public class CustomerRepository{
         try{
             // Connect to DB
             conn = DriverManager.getConnection(URL);
-            System.out.println("Connection to SQLite has been established.");
+            System.out.println("Connection to SQLite has been established 2.");
             // Make SQL query
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer WHERE CustomerId = ?");
             preparedStatement.setString(1, custId);
@@ -75,12 +75,12 @@ public class CustomerRepository{
         return customer;
     }
 
-    public Customer customerByName(String custName){
+    public Customer getCustomerByName(String custName){
         Customer customer = null;
         try{
             // Connect to DB
             conn = DriverManager.getConnection(URL);
-            System.out.println("Connection to SQLite has been established.");
+            System.out.println("Connection to SQLite has been established 3.");
             // Make SQL query
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer WHERE FirstName LIKE '?%'");
             preparedStatement.setString(1, custName);

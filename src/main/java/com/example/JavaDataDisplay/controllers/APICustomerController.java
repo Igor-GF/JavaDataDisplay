@@ -1,8 +1,11 @@
 //package com.example.JavaDataDisplay.controllers;
 //import com.example.JavaDataDisplay.dataAcces.CustomerRepository;
+//import com.example.JavaDataDisplay.models.Customer;
 //import org.springframework.stereotype.Controller;
 //import org.springframework.ui.Model;
 //import org.springframework.web.bind.annotation.*;
+//
+//import java.util.ArrayList;
 //
 //@RestController
 //public class APICustomerController {
@@ -11,14 +14,13 @@
 //
 //
 //    @GetMapping("/customers")
-//    public String getAllCustomers(Model model){
-//        model.addAttribute("customers", customerRepository.getAllCustomers());
-//        return "view-customers";
+//    public ArrayList<Customer> getAllCustomers(){
+//        return customerRepository.getAllCustomers();
 //    }
-
-
-/*    @RequestMapping(value = "/api/customers", method = RequestMethod.GET)
-    public String getAllCustomers() {
-        return "view-customers";
-    }*/
+//
+//
+///*    @RequestMapping(value = "/api/customers", method = RequestMethod.GET)
+//    public String getAllCustomers() {
+//        return "view-customers";
+//    }*/
 //}

@@ -21,9 +21,9 @@ public class CustomerController {
         return "view-customer-by-id";
     }
 
-    @GetMapping("/customers/{custName}")
+    @GetMapping("/customers/name/{custName}")
     public String getCustomerByName(Model model){
-        model.addAttribute("customerByName", customerRepository.getCustomerById("custName"));
+        model.addAttribute("customerByName", customerRepository.getCustomerByName("custName"));
         return "view-customer-by-name";
     }
 }
