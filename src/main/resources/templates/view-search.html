@@ -1,14 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/css/main.css}">
+<script th:src="@{/js/bootstrap.min.js}" ></script>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="../static/style.css">
 </head>
 <body>
-    <div class="topnav">
-        <a class="active" href="/home">Home</a>
-        <input type="text" placeholder="Search..">
-    </div>
+    <form th:action="@{/home/search}" th:object="@{customer}" method="get">
+        <input type="text" id="txtSearch" name="keyword" th:field="">
+        <button type="submit">OK</button>
+    </form>
+    <thead>
+    <tr>
+        <th>Customers</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="customer: ${customers}">
+        <td th:text="${customer.getCustomerId()}"></td>
+        <td th:text="${customer.getFirstName()}"></td>
+        <td th:text="${customer.getLastName()}"></td>
+        <td th:text="${customer.getCountry()}"></td>
+        <td th:text="${customer.getPostalCode()}"></td>
+        <td th:text="${customer.getPhoneNumber()}"></td>
+        <td th:text="${customer.getEmail()}"></td>
+    </tr>
+    </tbody>
 </body>
 </html>

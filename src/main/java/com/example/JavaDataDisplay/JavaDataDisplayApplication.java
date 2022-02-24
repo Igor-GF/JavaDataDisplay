@@ -8,5 +8,4 @@ public class JavaDataDisplayApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(JavaDataDisplayApplication.class, args);
 	}
-
 }

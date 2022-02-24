@@ -1,4 +1,5 @@
 package com.example.JavaDataDisplay.dataAcces;
+import com.example.JavaDataDisplay.models.HomeData;
 import com.example.JavaDataDisplay.models.Customer;
 import com.example.JavaDataDisplay.models.CustomerCountry;
 import com.example.JavaDataDisplay.models.CustomerSpender;
@@ -13,6 +14,7 @@ public class CustomerRepository {
     public ArrayList<Customer> customers = new ArrayList<Customer>();
     public ArrayList<CustomerCountry> customersCountry = new ArrayList<CustomerCountry>();
     public ArrayList<CustomerSpender> customersSpender = new ArrayList<CustomerSpender>();
+    public ArrayList<HomeData> data = new ArrayList<>();
 
     public ArrayList<Customer> getAllCustomers() {
         customers.clear();
@@ -281,7 +283,44 @@ public class CustomerRepository {
         return resultset;
     }
 
-    public ArrayList<Customer> getRandomCustomers() {
+    public ArrayList<HomeData> getRandomData() {
+        data.clear();
+        try {
+            // Connect to the database
+            conn = DriverManager.getConnection(URL);
+            System.out.println("Connection to SQLite has been established for getRandomCustomers.");
+
+            // Make SQL query
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT Artist.Name, Genre.Name, Track.Name FROM Artist, Genre, Track ORDER BY random() LIMIT 5");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                data.add(
+                        new HomeData(
+                                resultSet.getString("Name"),
+                                resultSet.getString("Name"),
+                                resultSet.getString("Name")
+                        )
+                );
+            }
+        } catch (SQLException sqe) {
+            sqe.printStackTrace();
+            // exit the program
+            System.exit(-1);
+        }
+        finally {
+            try {
+                conn.close();
+                System.out.println("trying to close connection");
+            }
+            catch (Exception exception){
+                System.out.println("Exception: " + exception);
+            }
+        }
+        return data;
+    }
+
+    public ArrayList<Customer> searchCustomers() {
         customers.clear();
         try {
             // Connect to the database
@@ -294,15 +333,15 @@ public class CustomerRepository {
 
             while (resultSet.next()) {
                 customers.add(
-                        new Customer(
-                                resultSet.getString("CustomerId"),
-                                resultSet.getString("FirstName"),
-                                resultSet.getString("LastName"),
-                                resultSet.getString("Country"),
-                                resultSet.getString("PostalCode"),
-                                resultSet.getString("Phone"),
-                                resultSet.getString("Email")
-                        )
+                    new Customer(
+                        resultSet.getString("CustomerId"),
+                        resultSet.getString("FirstName"),
+                        resultSet.getString("LastName"),
+                        resultSet.getString("Country"),
+                        resultSet.getString("PostalCode"),
+                        resultSet.getString("Phone"),
+                        resultSet.getString("Email")
+                    )
                 );
             }
         } catch (SQLException sqe) {

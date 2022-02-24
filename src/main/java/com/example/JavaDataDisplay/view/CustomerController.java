@@ -10,8 +10,14 @@ public class CustomerController {
     private CustomerRepository customerRepository = new CustomerRepository();
 
     @GetMapping("/home")
-    public String getRandomCustomers(Model model){
-        model.addAttribute("customers", customerRepository.getRandomCustomers());
+    public String getRandomData(Model model){
+        model.addAttribute("data", customerRepository.getRandomData());
         return "view-random-customers";
+    }
+
+    @GetMapping("/home/search")
+    public String searchCustomers(Model model){
+        model.addAttribute("customers", customerRepository.searchCustomers());
+        return "view-search";
     }
 }

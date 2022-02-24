@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 <link rel="stylesheet" th:href="@{/css/main.css}">
 <script th:src="@{/js/bootstrap.min.js}" ></script>
 <head>
     <meta charset="UTF-8">
     <title>View customers</title>
-    <link rel="stylesheet" href="../static/style.css">
 </head>
 <body>
 <nav>
@@ -17,19 +17,32 @@
 <table>
     <thead>
     <tr>
-        <th>Customers</th>
+        <th>Artists</th>
     </tr>
     </thead>
     <tbody>
+    <tr th:each="item: ${data}">
+        <td th:text="${item.getName()}"></td>
+    </tr>
+    </tbody>
 
-    <tr th:each="customer: ${customers}">
-        <td th:text="${customer.getCustomerId()}"></td>
-        <td th:text="${customer.getFirstName()}"></td>
-        <td th:text="${customer.getLastName()}"></td>
-        <td th:text="${customer.getCountry()}"></td>
-        <td th:text="${customer.getPostalCode()}"></td>
-        <td th:text="${customer.getPhoneNumber()}"></td>
-        <td th:text="${customer.getEmail()}"></td>
+    <tr>
+        <th>Songs</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item: ${data}">
+        <td th:text="${item.getGenre()}"></td>
+    </tr>
+    </tbody>
+
+    <tr>
+        <th>Genres</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item: ${data}">
+        <td th:text="${item.getTrack()}"></td>
     </tr>
     </tbody>
 </table>
