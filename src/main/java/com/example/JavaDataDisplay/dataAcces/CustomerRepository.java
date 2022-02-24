@@ -1,6 +1,7 @@
 package com.example.JavaDataDisplay.dataAcces;
 import com.example.JavaDataDisplay.models.Customer;
 import com.example.JavaDataDisplay.models.CustomerCountry;
+import com.example.JavaDataDisplay.models.CustomerSpender;
 import org.springframework.stereotype.Service;
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ public class CustomerRepository {
     private Connection conn = null;
     public ArrayList<Customer> customers = new ArrayList<Customer>();
     public ArrayList<CustomerCountry> customersCountry = new ArrayList<CustomerCountry>();
+    public ArrayList<CustomerSpender> customersSpender = new ArrayList<CustomerSpender>();
 
     public ArrayList<Customer> getAllCustomers() {
         customers.clear();
@@ -229,17 +231,25 @@ public class CustomerRepository {
         return customersCountry;
     }
 
-    public ResultSet getHighestSpendingCustomers(){
-        ResultSet resultset = null;
+    public ArrayList<CustomerSpender> getHighestSpendingCustomers(){
+        customersSpender.clear();
+        ResultSet resultSet = null;
         try {
             // Connect to the database
             conn = DriverManager.getConnection(URL);
             System.out.println("Connection to SQLite has been established to getHighestSpendingCustomers.");
 
             // Make SQL query
-            PreparedStatement preparedStatement = conn.prepareStatement("SELECT CustomerId FROM Invoice ORDER BY COUNT(Total) DESC;");
-            resultset = preparedStatement.executeQuery();
-
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT CustomerId, SUM(Total) AS SumOfTotal FROM Invoice GROUP BY CustomerId ORDER BY SumOfTotal DESC");
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                customersSpender.add(
+                    new CustomerSpender(
+                        resultSet.getInt("CustomerId"),
+                        resultSet.getDouble("SumOfTotal")
+                    )
+                );
+            }
             System.out.println("Selected all the spending customers");
 
         } catch (SQLException sqe) {
@@ -247,7 +257,7 @@ public class CustomerRepository {
             // exit the program
             System.exit(-1);
         }
-        return resultset;
+        return customersSpender;
     }
 
     public ResultSet mostPopularGenreCustomer(){

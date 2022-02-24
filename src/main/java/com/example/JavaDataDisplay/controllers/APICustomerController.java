@@ -2,6 +2,7 @@ package com.example.JavaDataDisplay.controllers;
 import com.example.JavaDataDisplay.dataAcces.CustomerRepository;
 import com.example.JavaDataDisplay.models.Customer;
 import com.example.JavaDataDisplay.models.CustomerCountry;
+import com.example.JavaDataDisplay.models.CustomerSpender;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.ResultSet;
@@ -52,10 +53,9 @@ public class APICustomerController {
     }
 
     @GetMapping("/invoice/highestSpenders")
-    public ResultSet getHighestSpendingCustomers(){
+    public ArrayList<CustomerSpender> getHighestSpendingCustomers(){
         return customerRepository.getHighestSpendingCustomers();
     }
-
 
     @GetMapping("/invoice/mostPopular")
     public ResultSet mostPopularGenreCustomer(){
