@@ -145,8 +145,7 @@ public class CustomerRepository {
             System.out.println("Connection to SQLite has been established.");
 
             // Make SQL query
-            PreparedStatement preparedStatement =
-                    conn.prepareStatement("INSERT INTO customer(CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email) VALUES(?,?,?,?,?,?,?)");
+            PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO customer(CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email) VALUES(?,?,?,?,?,?,?)");
             preparedStatement.setString(1,customer.getCustomerId());
             preparedStatement.setString(2,customer.getFirstName());
             preparedStatement.setString(3,customer.getLastName());
@@ -226,7 +225,7 @@ public class CustomerRepository {
         try {
             // Connect to the database
             conn = DriverManager.getConnection(URL);
-            System.out.println("Connection to SQLite has been established 1.");
+            System.out.println("Connection to SQLite has been established to getHighestSpendingCustomers.");
 
             // Make SQL query
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT CustomerId FROM Invoice ORDER BY COUNT(Total) DESC;");
@@ -263,5 +262,34 @@ public class CustomerRepository {
         return resultset;
     }
 
+    public ArrayList<Customer> getRandomCustomers() {
+        try {
+            // Connect to the database
+            conn = DriverManager.getConnection(URL);
+            System.out.println("Connection to SQLite has been established for getRandomCustomers.");
 
+            // Make SQL query
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM Customer ORDER BY random() LIMIT 5");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                customers.add(
+                        new Customer(
+                                resultSet.getString("CustomerId"),
+                                resultSet.getString("FirstName"),
+                                resultSet.getString("LastName"),
+                                resultSet.getString("Country"),
+                                resultSet.getString("PostalCode"),
+                                resultSet.getString("Phone"),
+                                resultSet.getString("Email")
+                        )
+                );
+            }
+        } catch (SQLException sqe) {
+            sqe.printStackTrace();
+            // exit the program
+            System.exit(-1);
+        }
+        return customers;
+    }
 }
