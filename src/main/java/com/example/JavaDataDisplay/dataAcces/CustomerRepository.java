@@ -148,10 +148,10 @@ public class CustomerRepository {
         try{
             // Connect to DB
             conn = DriverManager.getConnection(URL);
-            System.out.println("Connection to SQLite has been established.");
+            System.out.println("Connection to SQLite has been established to addCustomer.");
 
             // Make SQL query
-            PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO customer(CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email) VALUES(?,?,?,?,?,?,?)");
+            PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO Customer(CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email) VALUES(?,?,?,?,?,?,?)");
             preparedStatement.setString(1,customer.getCustomerId());
             preparedStatement.setString(2,customer.getFirstName());
             preparedStatement.setString(3,customer.getLastName());

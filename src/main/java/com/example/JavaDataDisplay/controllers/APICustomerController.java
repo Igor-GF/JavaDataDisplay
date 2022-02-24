@@ -37,7 +37,7 @@ public class APICustomerController {
                 Integer.parseInt(limit), Integer.parseInt(offset));
     }
 
-    @PostMapping(value = "/customers")
+    @PostMapping("/customers/add")
     public Boolean addCustomer(@RequestBody Customer customer){
         return customerRepository.addCustomer(customer);
     }
