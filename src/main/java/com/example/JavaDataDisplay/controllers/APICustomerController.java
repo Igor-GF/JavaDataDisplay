@@ -1,6 +1,7 @@
 package com.example.JavaDataDisplay.controllers;
 import com.example.JavaDataDisplay.dataAcces.CustomerRepository;
 import com.example.JavaDataDisplay.models.Customer;
+import com.example.JavaDataDisplay.models.CustomerCountry;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.ResultSet;
@@ -46,7 +47,7 @@ public class APICustomerController {
     }
 
     @GetMapping("/customers/byCountry")
-    public ResultSet returnNumberCustomersCountry(){
+    public ArrayList<CustomerCountry> returnNumberCustomersCountry(){
         return customerRepository.returnNumberCustomersCountry();
     }
 

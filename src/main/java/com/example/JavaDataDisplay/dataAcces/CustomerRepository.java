@@ -1,5 +1,6 @@
 package com.example.JavaDataDisplay.dataAcces;
 import com.example.JavaDataDisplay.models.Customer;
+import com.example.JavaDataDisplay.models.CustomerCountry;
 import org.springframework.stereotype.Service;
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,8 +10,10 @@ public class CustomerRepository {
     private String URL = ConnectionHelper.CONNECTION_URL;
     private Connection conn = null;
     public ArrayList<Customer> customers = new ArrayList<Customer>();
+    public ArrayList<CustomerCountry> customersCountry = new ArrayList<CustomerCountry>();
 
     public ArrayList<Customer> getAllCustomers() {
+        customers.clear();
         try {
             // Connect to the database
             conn = DriverManager.getConnection(URL);
@@ -106,6 +109,7 @@ public class CustomerRepository {
 
     // Note that this does not completely work. The limit and offset could not be implemented.
     public ArrayList<Customer> getCustomersBySelection(int limit, int offset) {
+        customers.clear();
         try {
             // Connect to DB
             conn = DriverManager.getConnection(URL);
@@ -195,19 +199,26 @@ public class CustomerRepository {
         }
     }
 
-
     // Note that this does not completely work.
-    public ResultSet returnNumberCustomersCountry() {
+    public ArrayList<CustomerCountry> returnNumberCustomersCountry() {
+        customersCountry.clear();
         ResultSet resultSet = null;
         try {
             // Connect to the database
             conn = DriverManager.getConnection(URL);
-            System.out.println("Connection to SQLite has been established 1.");
+            System.out.println("Connection to SQLite has been established to getCustomerByCountry.");
 
             // Make SQL query
-            PreparedStatement preparedStatement = conn.prepareStatement("SELECT COUNT(CustomerId), Country FROM Customer GROUP BY Country ORDER BY COUNT(CustomerId) DESC;");
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT Country, COUNT(CustomerId) AS totalCustomers FROM Customer GROUP BY Country ORDER BY totalCustomers DESC");
             resultSet = preparedStatement.executeQuery();
-
+            while (resultSet.next()) {
+                customersCountry.add(
+                        new CustomerCountry(
+                                resultSet.getString("Country"),
+                                resultSet.getInt("totalCustomers")
+                        )
+                );
+            }
             System.out.println("Selected all the customers");
 
         } catch (SQLException sqe) {
@@ -215,10 +226,8 @@ public class CustomerRepository {
             // exit the program
             System.exit(-1);
         }
-        return resultSet;
+        return customersCountry;
     }
-
-
 
     public ResultSet getHighestSpendingCustomers(){
         ResultSet resultset = null;
@@ -263,6 +272,7 @@ public class CustomerRepository {
     }
 
     public ArrayList<Customer> getRandomCustomers() {
+        customers.clear();
         try {
             // Connect to the database
             conn = DriverManager.getConnection(URL);
@@ -289,6 +299,15 @@ public class CustomerRepository {
             sqe.printStackTrace();
             // exit the program
             System.exit(-1);
+        }
+        finally {
+            try {
+                conn.close();
+                System.out.println("trying to close connection");
+            }
+            catch (Exception exception){
+                System.out.println("Exception: " + exception);
+            }
         }
         return customers;
     }
